@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WELCOME TO UDAY SHANKAR PAUL - MOCK TEST</title>
+<style>
+  :root {
+    --primary: #1e3a8a;
+    --primary-light: #2563eb;
+    --success: #16a34a;
+    --danger: #dc2626;
+    --gray-bg: #f8fafc;
+    --gray-border: #cbd5e1;
+    --text: #0f172a;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Arial, sans-serif; }
+  body { background-color: var(--gray-bg); color: var(--text); }
+
+  /* Login Screen */
+  #login-screen {
+    display: flex; justify-content: center; align-items: center;
+    min-height: 100vh; padding: 20px;
+  }
+  .login-card {
+    background: #ffffff; padding: 40px 30px; border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08); width: 100%; max-width: 460px;
+    text-align: center; border-top: 6px solid var(--primary);
+  }
+  .welcome-title {
+    font-size: 26px; font-weight: 800; color: #64748b; letter-spacing: 3px;
+    text-transform: uppercase; margin-bottom: 6px;
+  }
+  .brand-name {
+    font-size: 24px; font-weight: 900; color: var(--primary);
+    letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px;
+  }
+  .mock-subtitle {
+    font-size: 15px; font-weight: 700; color: var(--primary-light);
+    letter-spacing: 2px; text-transform: uppercase; margin-bottom: 25px;
+  }
+  .login-card input {
+    width: 100%; padding: 13px 16px; border: 2px solid var(--gray-border);
+    border-radius: 8px; font-size: 15px; margin-bottom: 20px; outline: none;
+    transition: 0.2s;
+  }
+  .login-card input:focus { border-color: var(--primary-light); }
+  .btn-start {
+    width: 100%; padding: 13px; background: var(--primary); color: #fff;
+    border: none; border-radius: 8px; font-size: 16px; font-weight: bold;
+    cursor: pointer; transition: 0.2s;
+  }
+  .btn-start:hover { background: #172554; }
+
+  /* Exam Screen */
+  #exam-screen { display: none; flex-direction: column; min-height: 100vh; }
+  .top-navbar {
+    background: #fff; border-bottom: 1.5px solid var(--gray-border);
+    padding: 10px 20px; display: flex; justify-content: space-between;
+    align-items: center;
+  }
+  .nav-user { font-weight: 700; color: var(--primary); font-size: 15px; }
+  .timer-pill {
+    background: #fee2e2; color: var(--danger); padding: 5px 14px;
+    border-radius: 20px; font-weight: 800; font-size: 16px; border: 1.5px solid #fca5a5;
+  }
+
+  /* 30 Question Boxes Top Grid */
+  .top-boxes-container {
+    background: #ffffff; padding: 10px 15px;
+    border-bottom: 2px solid var(--gray-border);
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .boxes-legend {
+    display: flex; gap: 15px; font-size: 12px; font-weight: 600; color: #475569;
+  }
+  .legend-dot { width: 11px; height: 11px; border-radius: 2px; display: inline-block; }
+  .boxes-grid {
+    display: flex; flex-wrap: wrap; gap: 6px;
+  }
+  .box-btn {
+    width: 32px; height: 32px; border: 1px solid var(--gray-border);
+    border-radius: 5px; background: #e2e8f0; color: #334155; font-size: 12px;
+    font-weight: bold; cursor: pointer; display: flex; align-items: center;
+    justify-content: center; transition: 0.15s;
+  }
+  .box-btn.active { outline: 2.5px solid #000; outline-offset: 1px; }
+  .box-btn.answered { background: var(--success) !important; color: #ffffff !important; border-color: #15803d; }
+  .box-btn.visited { background: var(--danger); color: #ffffff; border-color: #b91c1c; }
+
+  /* Question Panel */
+  .exam-body {
+    flex: 1; max-width: 850px; width: 100%; margin: 20px auto; padding: 0 15px;
+  }
+  .question-panel {
+    background: #ffffff; border: 1.5px solid var(--gray-border);
+    border-radius: 10px; padding: 22px; box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+  }
+  .q-top-row {
+    display: flex; justify-content: space-between; align-items: center;
+    border-bottom: 1.5px solid var(--gray-border); padding-bottom: 10px; margin-bottom: 15px;
+  }
+  .q-tag {
+    background: #eff6ff; color: #1d4ed8; font-size: 11px; font-weight: bold;
+    padding: 3px 8px; border-radius: 4px; border: 1px solid #bfdbfe;
+  }
+  .q-text { font-size: 16px; line-height: 1.6; margin-bottom: 20px; font-weight: 500; }
+  
+  .options-area label {
+    display: flex; align-items: center; padding: 12px 16px; margin-bottom: 10px;
+    border: 1.5px solid var(--gray-border); border-radius: 8px; cursor: pointer;
+    background: #fff; font-size: 15px; transition: 0.15s;
+  }
+  .options-area label:hover { background: #f8fafc; border-color: var(--primary-light); }
+  .options-area input { margin-right: 12px; width: 18px; height: 18px; accent-color: var(--primary); }
+
+  .action-nav {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: 20px; padding-top: 15px; border-top: 1.5px solid var(--gray-border);
+  }
+  .btn-ui {
+    padding: 9px 18px; border: none; border-radius: 6px; cursor: pointer;
+    font-size: 14px; font-weight: 700; background: #e2e8f0; color: #1e293b;
+  }
+  .btn-ui.primary { background: var(--primary); color: #fff; }
+  .btn-ui.danger { background: #fee2e2; color: var(--danger); }
+  .btn-ui.submit { background: var(--success); color: #fff; margin-left: 10px; }
+
+  /* Result Sheet */
+  #result-screen { display: none; padding: 30px 15px; }
+  .score-card {
+    background: #fff; max-width: 650px; margin: 0 auto 30px;
+    border-radius: 12px; border: 2px solid var(--gray-border); padding: 25px;
+    text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+  }
+  .score-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 20px 0;
+  }
+  .stat-card { padding: 12px; border-radius: 8px; }
+  .stat-card.green { background: #dcfce7; color: var(--success); }
+  .stat-card.red { background: #fee2e2; color: var(--danger); }
+  .stat-card.blue { background: #e0f2fe; color: #0284c7; }
+  .stat-val { font-size: 24px; font-weight: 800; }
+  
+  .review-wrap { max-width: 800px; margin: 0 auto; }
+  .review-card {
+    background: #fff; border: 1.5px solid var(--gray-border);
+    border-radius: 8px; padding: 16px; margin-bottom: 12px;
+  }
+  .time-badge {
+    font-size: 11.5px; background: #f1f5f9; color: #475569;
+    padding: 2px 7px; border-radius: 4px; border: 1px solid #cbd5e1;
+  }
+</style>
+</head>
+<body>
+
+<!-- Login Screen -->
+<div id="login-screen">
+  <div class="login-card">
+    <div class="welcome-title">WELCOME</div>
+    <div class="brand-name">UDAY SHANKAR PAUL</div>
+    <div class="mock-subtitle">MOCK TEST - SET 02</div>
+    
+    <input type="text" id="candidate-name" placeholder="এই জায়গায় তোমার নাম লিখো..." autocomplete="off">
+    <button class="btn-start" onclick="startMockTest()">START EXAM</button>
+  </div>
+</div>
+
+<!-- Exam Screen -->
+<div id="exam-screen">
+  <div class="top-navbar">
+    <div class="nav-user" id="disp-candidate-name">পরীক্ষার্থী: </div>
+    <div class="timer-pill" id="timer-display">25:00</div>
+  </div>
+
+  <!-- Top 30 Boxes Panel -->
+  <div class="top-boxes-container">
+    <div class="boxes-legend">
+      <span><span class="legend-dot" style="background:var(--success);"></span> সবুজ = উত্তর দেওয়া</span>
+      <span><span class="legend-dot" style="background:var(--danger);"></span> লাল = দেখা হয়েছে</span>
+      <span><span class="legend-dot" style="background:#cbd5e1;"></span> ধূসর = দেখা হয়নি</span>
+    </div>
+    <div class="boxes-grid" id="boxes-grid"></div>
+  </div>
+
+  <div class="exam-body">
+    <div class="question-panel">
+      <div class="q-top-row">
+        <h3 id="q-title">প্রশ্ন ১ / ৩০</h3>
+        <span class="q-tag" id="q-exam">Exam</span>
+      </div>
+      
+      <div class="q-text" id="q-text"></div>
+      <div class="options-area" id="options-box"></div>
+
+      <div class="action-nav">
+        <div>
+          <button class="btn-ui" onclick="prevQuestion()">Previous</button>
+          <button class="btn-ui danger" onclick="clearOption()">Clear</button>
+        </div>
+        <div>
+          <button class="btn-ui primary" onclick="nextQuestion()">Save & Next</button>
+          <button class="btn-ui submit" onclick="confirmSubmit()">Submit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Result Screen -->
+<div id="result-screen">
+  <div class="score-card">
+    <h2 id="res-name">পরিক্ষার ফলাফল</h2>
+    <p style="color: #64748b; margin-top: 5px;">UDAY SHANKAR PAUL - SET 02 SCORECARD</p>
+    
+    <div class="score-grid">
+      <div class="stat-card green">
+        <div class="stat-val" id="res-correct">0</div>
+        <div>সঠিক উত্তর</div>
+      </div>
+      <div class="stat-card red">
+        <div class="stat-val" id="res-wrong">0</div>
+        <div>ভুল উত্তর</div>
+      </div>
+      <div class="stat-card blue">
+        <div class="stat-val" id="res-total">0 / 30</div>
+        <div>মোট স্কোর</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="review-wrap" id="review-list">
+    <h3 style="margin-bottom: 15px; color: var(--primary);">উত্তরপত্র এবং প্রতিটি প্রশ্নে ব্যয়িত সময়:</h3>
+  </div>
+</div>
+
+<script>
+const questions = [
+  { q: "একটি দ্রব্যের ধার্যমূল্য ক্রয়মূল্যের চেয়ে ৪০% বেশি। ধার্যমূল্যের ওপর ১৫% ও ১০% পরপর দুটি ক্রমিক ছাড় দিলে শতকরা লাভ কত?", options: ["(a) ৭.১%", "(b) ৮.৫%", "(c) ৫.৫%", "(d) ৬.২%"], ans: 0, exam: "SSC GD Constable" },
+  { q: "₹১২,৫০০ টাকার বার্ষিক ১২% হারে ১ বছর ৪ মাসের চক্রবৃদ্ধি সুদ কত হবে, যখন সুদ প্রতি ৫ মাস অন্তর যুক্ত হয়?", options: ["(a) ₹২,১৮৪", "(b) ₹২,১৬০", "(c) ₹২,২০০", "(d) ₹২,১২৫"], ans: 0, exam: "SSC CGL (Tier-1)" },
+  { q: "তিনটি সংখ্যার প্রথম দুটির গড় ৪২, দ্বিতীয় ও তৃতীয়টির গড় ৪৮ এবং প্রথম ও তৃতীয়টির গড় ৪৫। বৃহত্তম ও ক্ষুদ্রতম সংখ্যার পার্থক্য কত?", options: ["(a) ১০", "(b) ১২", "(c) ১৪", "(d) ৮"], ans: 1, exam: "Railway Group D" },
+  { q: "A একটি কাজ ১৮ দিনে ও B ২৪ দিনে করে। তারা একসাথে শুরু করার পর কাজ শেষ হওয়ার ৪ দিন আগে B চলে গেল। কাজটি শেষ হতে মোট কত দিন লেগেছিল?", options: ["(a) ১২ দিন", "(b) ১০ দিন", "(c) ১৫ দিন", "(d) ১৪ দিন"], ans: 0, exam: "Railway Group D" },
+  { q: "পরীক্ষায় সফল ও ব্যর্থ প্রার্থীর অনুপাত ৫ : ২ ছিল। ব্যর্থ প্রার্থী ১৪ জন বেশি হলে অনুপাত দাঁড়াত ৯ : ৫। মোট পরীক্ষার্থীর সংখ্যা কত ছিল?", options: ["(a) ১৯৬", "(b) ১২৬", "(c) ১৪০", "(d) ১৫৪"], ans: 0, exam: "SSC CHSL" },
+  { q: "৬০ কিমি/ঘণ্টা বেগে চলা ট্রেনের এক যাত্রী দেখলেন বিপরীত দিক থেকে আসা ২৪০ মিটার লম্বা মালগাড়ি তাকে ৯ সেকেন্ডে অতিক্রম করল। মালগাড়ির বেগ কত?", options: ["(a) ৩৫ কিমি/ঘণ্টা", "(b) ৩৬ কিমি/ঘণ্টা", "(c) ৪৮ কিমি/ঘণ্টা", "(d) ৪০ কিমি/ঘণ্টা"], ans: 1, exam: "Railway Group D" },
+  { q: "A ও B যথাক্রমে ₹৫০,০০০ ও ₹৭০,০০০ বিনিয়োগ করে। ৪ মাস পর A আরও ₹২০,০০০ দেয় কিন্তু B ₹১০,০০০ তোলে। মোট লাভ ₹৩৬,৩০০ হলে A কত পাবে?", options: ["(a) ₹১৮,০০০", "(b) ₹১৯,৮০০", "(c) ₹১৬,৫০০", "(d) ₹১৭,২০০"], ans: 1, exam: "SSC CHSL" },
+  { q: "যদি A : B = ৩ : ৪ এবং B : C = ৮ : ৯ হয়, তবে A : C-এর অনুপাত কত?", options: ["(a) ১ : ২", "(b) ২ : ৩", "(c) ৩ : ২", "(d) ১ : ৩"], ans: 1, exam: "Railway Group D" },
+  { q: "একটি গোলকের ব্যাসার্ধ ৫০% বৃদ্ধি করা হলে, সেটির সমগ্র তলের ক্ষেত্রফল শতকরা কত বৃদ্ধি পাবে?", options: ["(a) ১০০%", "(b) ১২৫%", "(c) ১৫০%", "(d) ২২৫%"], ans: 1, exam: "Railway Group D" },
+  { q: "নল A ও B যথাক্রমে ১৫ ও ২০ ঘণ্টায় জলাধার পূর্ণ করে এবং C ২৫ ঘণ্টায় খালি করে। তিনটি নল একসঙ্গে খোলার ১০ ঘণ্টা পর C বন্ধ করলে মোট কত সময় লাগবে?", options: ["(a) ১২ ঘণ্টা", "(b) ১৩ ঘণ্টা", "(c) ১৪ ঘণ্টা", "(d) ১৫ ঘণ্টা"], ans: 0, exam: "SSC CGL (Tier-1)" },
+  { q: "পাত্রে দুধ ও জলের অনুপাত ৭ : ৫। ৯ লিটার মিশ্রণ তুলে সমপরিমাণ জল ঢাললে অনুপাত দাঁড়ায় ৭ : ৯। শুরুতে পাত্রে কত লিটার দুধ ছিল?", options: ["(a) ২১ লিটার", "(b) ৩৫ লিটার", "(c) ২৮ লিটার", "(d) ২১.৫ লিটার"], ans: 0, exam: "SSC CHSL" },
+  { q: "ত্রুটিপূর্ণ বাটখারায় ১ কেজির বদলে ৯০০ গ্রাম দিয়ে এক ব্যবসায়ী ক্রয়মূল্যেই দ্রব্য বিক্রির দাবি করে। তার আসল লাভের হার কত?", options: ["(a) ১০%", "(b) ৯.০৯%", "(c) ১১.১১%", "(d) ১২.৫%"], ans: 2, exam: "SSC GD Constable" },
+  { q: "একটি ঘনকের সমগ্র তলের ক্ষেত্রফল ৮৬৪ বর্গসেমি হলে ঘনকটির কর্ণের দৈর্ঘ্য কত?", options: ["(a) ১২ সেমি", "(b) ১২√৩ সেমি", "(c) ১৪√৩ সেমি", "(d) ১৬√২ সেমি"], ans: 1, exam: "Railway Group D" },
+  { q: "৮ অঙ্কের সংখ্যা 789x531y যদি ৭২ দ্বারা বিভাজ্য হয়, তবে (5x - 3y)-এর মান কত? (যেখানে y-এর মান বৃহত্তম সম্ভাব্য অঙ্ক)", options: ["(a) ০", "(b) -১", "(c) ২", "(d) ১"], ans: 1, exam: "SSC CGL (Tier-1)" },
+  { q: "নির্দিষ্ট সরল সুদের হারে কোনো মূলধন ৫ বছরে দ্বিগুণ হয়। একই সুদের হারে ওই মূলধন কত বছরে ৫ গুণ হবে?", options: ["(a) ২৫ বছরে", "(b) ২০ বছরে", "(c) ১৫ বছরে", "(d) ১০ বছরে"], ans: 1, exam: "Railway Group D" },
+  { q: "স্থির জলে নৌকার বেগ ৯ কিমি/ঘণ্টা ও স্রোতের বেগ ৩ কিমি/ঘণ্টা। অনুকূলে গিয়ে ফিরে আসতে মোট ৩ ঘণ্টা লাগলে স্থান দুটির দূরত্ব কত?", options: ["(a) ১২ কিমি", "(b) ৮ কিমি", "(c) ১০ কিমি", "(d) ৯ কিমি"], ans: 0, exam: "SSC CHSL" },
+  { q: "২৫ জন ছাত্রের গড় ওজন ৪৮ কেজি। একজন শিক্ষক যুক্ত হওয়ায় গড় ওজন ১ কেজি বৃদ্ধি পায়। শিক্ষকের ওজন কত কেজি?", options: ["(a) ৭৪ কেজি", "(b) ৭২ কেজি", "(c) ৭৩ কেজি", "(d) ৭৫ কেজি"], ans: 0, exam: "SSC GD Constable" },
+  { q: "সরল করুন: 18 ÷ 2 of 3 × [4 + {6 - (8 - 3)}] ÷ 5 = ?", options: ["(a) ১.৫", "(b) ৩", "(c) ৪.৫", "(d) ১.২"], ans: 1, exam: "Railway Group D" },
+  { q: "দুটি সংখ্যার গসাগু ও লসাগু যথাক্রমে ১২ এবং ৩৩৬। একটি সংখ্যা ৮৪ হলে অপর সংখ্যাটি কত?", options: ["(a) ৪৮", "(b) ৪২", "(c) ৩৬", "(d) ৫৪"], ans: 0, exam: "Railway Group D" },
+  { q: "একটি নল চৌবাচ্চা ৩ ঘণ্টায় পূর্ণ করে। কিন্তু ছিদ্রের কারণে পূর্ণ হতে ৩ ঘণ্টা ৩০ মিনিট লাগে। ছিদ্র দিয়ে পূর্ণ চৌবাচ্চা খালি হতে কত সময় লাগবে?", options: ["(a) ১৮ ঘণ্টা", "(b) ২১ ঘণ্টা", "(c) ১৪ ঘণ্টা", "(d) ১৯.৫ ঘণ্টা"], ans: 1, exam: "SSC GD Constable" },
+  { q: "₹২৪,০০০ টাকায় দুটি মোবাইল কিনে একটি ২০% লাভে ও অপরটি ১০% ক্ষতিতে বিক্রি করা হলো। মোটের ওপর ২% লাভ হলে ক্ষতিগ্রস্ত মোবাইলের ক্রয়মূল্য কত?", options: ["(a) ₹১৪,৪০০", "(b) ₹৯,৬০০", "(c) ₹১০,৮০০", "(d) ₹৮,০০০"], ans: 0, exam: "SSC CHSL" },
+  { q: "A ও B-এর গতিবেগের অনুপাত ৩ : ৪। নির্দিষ্ট গন্তব্যে পৌঁছাতে A-এর B-এর চেয়ে ২০ মিনিট বেশি লাগলে সমগ্র পথ চলতে A-এর মোট কত মিনিট লাগবে?", options: ["(a) ৬০ মিনিট", "(b) ৭০ মিনিট", "(c) ৮০ মিনিট", "(d) ৯০ মিনিট"], ans: 2, exam: "Railway Group D" },
+  { q: "যদি a + b + c = 0 হয়, তবে মান নির্ণয় করুন: (a²/bc) + (b²/ca) + (c²/ab) = ?", options: ["(a) ০", "(b) ১", "(c) ২", "(d) ৩"], ans: 3, exam: "SSC CGL (Tier-1)" },
+  { q: "একটি লম্ববৃত্তাকার শঙ্কুর ভূমির ব্যাসার্ধ ৭ সেমি এবং উচ্চতা ২৪ সেমি। শঙ্কুর বক্রতলের ক্ষেত্রফল কত? [যেখানে π = ২২/৭]", options: ["(a) ৫৫০ বর্গসেমি", "(b) ৫২৮ বর্গসেমি", "(c) ৬১৬ বর্গসেমি", "(d) ৭০০ বর্গসেমি"], ans: 0, exam: "SSC GD Constable" },
+  { q: "একটি শহরের বর্তমান জনসংখ্যা ১,২৫,০০০। প্রতি বছর ৪% হারে বৃদ্ধি পেলে ৩ বছর পরে শহরের জনসংখ্যা কত হবে?", options: ["(a) ১,৪০,৬০৮", "(b) ১,৩৮,৪০০", "(c) ১,৪২,০০০", "(d) ১,৩৯,৫৫০"], ans: 0, exam: "SSC GD Constable" },
+  { q: "কোনো আসল বার্ষিক ১০% চক্রবৃদ্ধি সুদে ৩ বছরে সুদে-আসলে ₹৬,৬৫৫ হয়। আসল টাকা কত ছিল?", options: ["(a) ₹৫,০০০", "(b) ₹৫,৫০০", "(c) ₹৫,২০০", "(d) ₹৪,৮০০"], ans: 0, exam: "Railway Group D" },
+  { q: "৮ জন পুরুষ অথবা ১২ জন মহিলা একটি কাজ ২৫ দিনে শেষ করেন। ৬ জন পুরুষ এবং ১১ জন মহিলা একত্রে কাজটি কত দিনে করবেন?", options: ["(a) ১২ দিন", "(b) ১৫ দিন", "(c) ১০ দিন", "(d) ১৪ দিন"], ans: 1, exam: "SSC CHSL" },
+  { q: "যদি tan θ + cot θ = 2 হয় (যেখানে 0° < θ < 90°), তবে tan¹⁰ θ + cot¹⁰ θ-এর মান কত?", options: ["(a) ৪", "(b) ২", "(c) ১", "(d) ০"], ans: 1, exam: "SSC CGL (Tier-1)" },
+  { q: "একটি সমবাহু ত্রিভুজের উচ্চতা 6√3 সেমি হলে ত্রিভুজটির ক্ষেত্রফল কত বর্গসেমি?", options: ["(a) 36√3", "(b) 24√3", "(c) 18√3", "(d) 48√3"], ans: 0, exam: "Railway Group D" },
+  { q: "একটি দ্রব্যের দাম প্রথমে ২০% বাড়ানো হলো, পরে আবার ২০% কমানো হলো। দ্রব্যের মূল দামের সার্বিক শতকরা পরিবর্তন কী হবে?", options: ["(a) ৪% হ্রাস", "(b) ৪% বৃদ্ধি", "(c) অপরিবর্তিত", "(d) ২% হ্রাস"], ans: 0, exam: "SSC GD Constable" }
+];
+
+let currentIndex = 0;
+let userAnswers = new Array(questions.length).fill(null);
+let visited = new Array(questions.length).fill(false);
+let timeSpent = new Array(questions.length).fill(0); // প্রশ্নভিত্তিক সময় (সেকেন্ড)
+let lastSwitchTimestamp = null;
+let candidateName = "";
+let timeLeft = 25 * 60;
+let timerInterval = null;
+
+function startMockTest() {
+  const nameInput = document.getElementById("candidate-name").value.trim();
+  if (!nameInput) {
+    alert("অনুগ্রহ করে তোমার নাম লিখো!");
+    return;
+  }
+  candidateName = nameInput;
+  document.getElementById("disp-candidate-name").innerText = "পরীক্ষার্থী: " + candidateName;
+  document.getElementById("login-screen").style.display = "none";
+  document.getElementById("exam-screen").style.display = "flex";
+
+  renderTopBoxes();
+  lastSwitchTimestamp = Date.now();
+  loadQuestion(0);
+  startTimer();
+}
+
+function renderTopBoxes() {
+  const container = document.getElementById("boxes-grid");
+  container.innerHTML = "";
+  for (let i = 0; i < questions.length; i++) {
+    const btn = document.createElement("div");
+    btn.className = "box-btn";
+    btn.id = "top-box-" + i;
+    btn.innerText = (i + 1);
+    btn.onclick = () => jumpToQuestion(i);
+    container.appendChild(btn);
+  }
+}
+
+function trackTimeOnCurrentQuestion() {
+  if (lastSwitchTimestamp !== null) {
+    const now = Date.now();
+    const elapsedSec = Math.round((now - lastSwitchTimestamp) / 1000);
+    timeSpent[currentIndex] += elapsedSec;
+    lastSwitchTimestamp = now;
+  }
+}
+
+function loadQuestion(index) {
+  trackTimeOnCurrentQuestion();
+  currentIndex = index;
+  visited[index] = true;
+
+  document.getElementById("q-title").innerText = `প্রশ্ন ${index + 1} / ${questions.length}`;
+  document.getElementById("q-exam").innerText = questions[index].exam;
+  document.getElementById("q-text").innerText = questions[index].q;
+
+  const box = document.getElementById("options-box");
+  box.innerHTML = "";
+
+  questions[index].options.forEach((text, optIdx) => {
+    const label = document.createElement("label");
+    const radio = document.createElement("input");
+    radio.type = "radio";
+    radio.name = "ans_opt";
+    radio.value = optIdx;
+    if (userAnswers[index] === optIdx) radio.checked = true;
+    radio.onchange = () => {
+      userAnswers[index] = optIdx;
+      updateTopBoxes();
+    };
+
+    label.appendChild(radio);
+    label.appendChild(document.createTextNode(text));
+    box.appendChild(label);
+  });
+
+  updateTopBoxes();
+}
+
+function updateTopBoxes() {
+  for (let i = 0; i < questions.length; i++) {
+    const el = document.getElementById("top-box-" + i);
+    el.className = "box-btn";
+    if (i === currentIndex) el.classList.add("active");
+
+    if (userAnswers[i] !== null) {
+      el.classList.add("answered"); // সবুজ
+    } else if (visited[i]) {
+      el.classList.add("visited"); // লাল
+    }
+  }
+}
+
+function nextQuestion() {
+  if (currentIndex < questions.length - 1) {
+    loadQuestion(currentIndex + 1);
+  }
+}
+
+function prevQuestion() {
+  if (currentIndex > 0) {
+    loadQuestion(currentIndex - 1);
+  }
+}
+
+function jumpToQuestion(index) {
+  loadQuestion(index);
+}
+
+function clearOption() {
+  userAnswers[currentIndex] = null;
+  const radios = document.getElementsByName("ans_opt");
+  radios.forEach(r => r.checked = false);
+  updateTopBoxes();
+}
+
+function startTimer() {
+  timerInterval = setInterval(() => {
+    timeLeft--;
+    const mins = Math.floor(timeLeft / 60);
+    const secs = timeLeft % 60;
+    document.getElementById("timer-display").innerText = 
+      `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+
+    if (timeLeft <= 0) {
+      clearInterval(timerInterval);
+      alert("সময় শেষ! তোমার পরীক্ষাটি অটো-সাবমিট হয়ে গেল।");
+      finishExam();
+    }
+  }, 1000);
+}
+
+function confirmSubmit() {
+  const answered = userAnswers.filter(a => a !== null).length;
+  if (confirm(`তুমি ৩০ টির মধ্যে ${answered} টি প্রশ্নের উত্তর দিয়েছো। সাবমিট করতে চাও?`)) {
+    clearInterval(timerInterval);
+    finishExam();
+  }
+}
+
+function formatDuration(sec) {
+  if (sec < 60) return `${sec} সেকেন্ড`;
+  const m = Math.floor(sec / 60);
+  const s = sec % 60;
+  return `${m} মিনিট ${s} সেকেন্ড`;
+}
+
+function finishExam() {
+  trackTimeOnCurrentQuestion();
+  document.getElementById("exam-screen").style.display = "none";
+  document.getElementById("result-screen").style.display = "block";
+
+  let correct = 0;
+  let wrong = 0;
+  const reviewList = document.getElementById("review-list");
+  reviewList.innerHTML = `<h3 style="margin-bottom: 15px; color: var(--primary);">উত্তরপত্র এবং প্রতিটি প্রশ্নে ব্যয়িত সময়:</h3>`;
+
+  questions.forEach((q, idx) => {
+    const userChoice = userAnswers[idx];
+    const isCorrect = userChoice === q.ans;
+    if (userChoice !== null) {
+      if (isCorrect) correct++;
+      else wrong++;
+    }
+
+    const card = document.createElement("div");
+    card.className = "review-card";
+
+    let tagColor = "#64748b";
+    let tagText = "উত্তর দেওনি";
+    if (userChoice !== null) {
+      tagColor = isCorrect ? "var(--success)" : "var(--danger)";
+      tagText = isCorrect ? "সঠিক" : "ভুল";
+    }
+
+    card.innerHTML = `
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 8px;">
+        <div>
+          <strong>প্রশ্ন ${idx + 1}</strong>
+          <span class="time-badge">⏱ সময় লেগেছে: ${formatDuration(timeSpent[idx])}</span>
+        </div>
+        <span style="color: ${tagColor}; font-weight: bold;">${tagText}</span>
+      </div>
+      <p style="font-size: 14px; margin-bottom: 8px;">${q.q}</p>
+      <div style="color: var(--success); font-weight: 600; font-size: 13.5px;">সঠিক উত্তর: ${q.options[q.ans]}</div>
+      ${userChoice !== null && !isCorrect ? `<div style="color: var(--danger); font-weight: 600; font-size: 13.5px;">তোমার উত্তর: ${q.options[userChoice]}</div>` : ""}
+    `;
+    reviewList.appendChild(card);
+  });
+
+  document.getElementById("res-name").innerText = `${candidateName}, তোমার ফলাফল`;
+  document.getElementById("res-correct").innerText = correct;
+  document.getElementById("res-wrong").innerText = wrong;
+  document.getElementById("res-total").innerText = `${correct} / ${questions.length}`;
+}
+</script>
+</body>
+</html>
